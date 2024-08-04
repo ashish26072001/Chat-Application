@@ -2,12 +2,12 @@ import jwt from "jsonwebtoken"
 import { User } from "../models/user.model.js";
 const protectRoute= async(req,res,next)=>{
  try{
-const token=req.cookies.jwt;// get token from cookie whose name is jwt by using the middleware cookieParser in server file
-if(!token){
-return res.status(401).json({error:"Unauthorized-no token provided"})
-}
-const decoded=jwt.verify(token,process.env.jWT_SECRET);
-if(!decoded){
+   const token=req.cookies.jwt;// get token from cookie whose name is jwt by using the middleware cookieParser in server file
+    if(!token){
+    return res.status(401).json({error:"Unauthorized-no token provided"})
+    }
+    const decoded=jwt.verify(token,process.env.JWT_SECRET);
+   if(!decoded){
     return res.status(401).json({error:"Unauthorized-Invalid Token"})
     }
     const user=await User.findById(decoded.userId).select("-password");// get user without the password field
